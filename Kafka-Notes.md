@@ -29,4 +29,6 @@
 
 ### Kafka Stream
 - Used for data transformation.
-- Take some data from kafka cluster, make some changes to this data and put it in the cluster again. 
+- Take some data from kafka cluster, make some changes to this data and put it in the cluster again.
+
+
