@@ -154,6 +154,7 @@ A topic will have many partitions. Which partion should store the message/data?
 - D	    bye
 
 - All A, B, C will be stored in the same parition since their keys are same. But D will be put in some other partion based on its different key.
+**We will have one partition corresponding to a key.**
 
 ## Message
 - Message will have a key(optional) and a value. 
@@ -187,3 +188,38 @@ When cosumer group reads messages from a topic, each member of the group maintai
 - not meanth to be read or written by client. 
 - reflects the position of each consumer in each partition.
 - use by kafka to maintaing reliability of consumer group and to ensure that messages are not lost or duplicated. 
+- There is a separate __consumer_offset topic created for each consumer group.
+- __consumer_offset topic is used to store the current offset of each consumer in each partition for a given consumer group.
+- Each consumer in the group updates its own offset for the partitions it is assgined in the __consumer_offset topic.
+- Group coordinator uses this info to manage the assginment of paritions to consumers and to ensure that each partition is being consumed by exactly one consumber in the group.
+
+
+
+## How is data/messages read from the topic?
+**Consumer Group Coordinator - CGC, Consumer Group - CG. **
+- CG has only one consumer that is C.
+- We have a topic called T which has three partitions p1, p2, p3.
+- p1 has 1, 2, 3
+- p2 has 4, 5, 6
+- p3 has 7, 8, 9
+
+- If CG had maltiple consumers, then CGC will decide which consumer should be assigned which partition.
+- For a single consumer, it will jst use robin round.
+- Read seq will be 1, 4, 7, 2, 5, 8 ...
+
+- What would happen if CG has two consumers c1, c2.
+- Why do we need multiple consumers?
+- For parallelism and increse speed.
+- If the producer is producing at a very high speed, one consumer is not enough to process that data, we need many consumers in the group.
+- CGC will assign paritions to each consumer in the group.
+
+### Points
+- When consumer joins a consumer group, it sends a join req to CGC.
+- CGC will assgin paritions to consumber based on number of consumers and current assginment of partitions.
+- CGC then sends new assigned partitions to the consumer, which includes set of partitions that the consumer is responsible for consuming.
+- Consumer then consumes the assigned partitions.
+- Cosumers in CG are always assigned in sticky fasion means partitions assgined to a consumer will not change.
+- As long as the consumer is in the group.
+- This allows consumers to maintain their position in the topic and continue processing where they left off, even after a rebalance.
+- If we have a topic with four partitions and two consumers in CG then these two will be assgined two paritions each by the CGC.
+- This could be done based on round robin. 
