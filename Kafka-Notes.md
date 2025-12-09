@@ -222,4 +222,8 @@ When cosumer group reads messages from a topic, each member of the group maintai
 - As long as the consumer is in the group.
 - This allows consumers to maintain their position in the topic and continue processing where they left off, even after a rebalance.
 - If we have a topic with four partitions and two consumers in CG then these two will be assgined two paritions each by the CGC.
-- This could be done based on round robin. 
+- This could be done based on round robin.
+
+## Where is data/messages actually stored from the topic?
+- Set of messages is called a segment.
+- 
