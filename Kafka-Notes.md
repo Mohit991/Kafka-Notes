@@ -246,3 +246,33 @@ When cosumer group reads messages from a topic, each member of the group maintai
 - Default retention policy is 168 hours.
 - By default we have time based retention policy.
 - We can define all of these propterties in server.properties file. 
+
+## 3-broker Cluster Setup
+- Kafka cluster --> Group of kafka brokers
+- Kafka broker --> a server which runs kafka
+- Kafka broker runs using server.properties file. This file will have broker properties.
+- Broker id, port number, log directry etc for the broker. 
+- We specify the properties file when we run the broker.
+- Each kafka broker will have its own folder with data.
+- A cluster will have many brokers.
+
+### Replication Factor
+- Let us say kafka cluster has three brokers.
+- We have a topic created with replication factor 3.
+- Let say we have three partition in the topic.
+- All of this we will set during creation of the topic.
+- A message produced by the producer is saved to a partition inside a topic.
+- A message produced is sent to a broker by producer. The broker will replicate it to 2 other brokers making a total of 3 copies. Which is the replication factor. This is for fault tolerance.
+- Out of all the brokers, a leader is chosen for each parition of the topic.
+- Lets say we have a topic T and three partition p1, p2, p3.
+- We have three brokers in cluster called b1, b2, b3.
+- b1 can be the leader for partition p1, b2 for p2 and so on.
+- If the message comes to say p1, and b1 is the leader for it then the message first goes to b1 and b1 will replicate it to other brokers.
+- Each broker will have a copy of the topic(all partitions) each.
+- For each broker we will have a folder for each. Each of these folders will contain one folder for each parition of the topic.
+
+## ISR - In Sync Replica
+- All replica are in sync.
+- How many replicas are live.
+- If a broker goes down, then it is no longer in sync hence ISR will not show that.
+
