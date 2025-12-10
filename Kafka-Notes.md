@@ -225,5 +225,24 @@ When cosumer group reads messages from a topic, each member of the group maintai
 - This could be done based on round robin.
 
 ## Where is data/messages actually stored from the topic?
-- Set of messages is called a segment.
-- 
+- Set of messages is called a **segment**.
+- Topic --> Partitions --> Messages are appended to Partitions
+- Set of messages is called segment.
+- Partitions has messages and a set of messages is called **segment**.
+- server.properties file contains directory which has the files which are .log files which contain acutal data.
+- Thesse are called **commit logs**.
+- Each parition is in a differnt foler.
+- We can create segment size on our own. When the size of the log file becomes greater than the segment size we defined a new file is created.
+
+## Retention Policy 
+- How long the data should be kept?
+- Delete after a perticuler size is reached(for the partition). When file grows bigger than the given size, older data is deleted.
+- We decide how much of a size a parition can become. lets say 1GB, after the parition size reaches 1GB, The parition will have segments, older segments will be deleted. 
+- Delete after a perticular amount of time. Data is deleted after time is reached. Lets say 7 days. Data older than 7 days will get deleted.
+- Older data from the commit log/log file is deleted.
+- This is done by a process called **log cleaner process**.
+- Log file is encoded.
+- Producer puts the file encoded and consumver decodes it.
+- Default retention policy is 168 hours.
+- By default we have time based retention policy.
+- We can define all of these propterties in server.properties file. 
