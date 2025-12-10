@@ -276,3 +276,13 @@ When cosumer group reads messages from a topic, each member of the group maintai
 - How many replicas are live.
 - If a broker goes down, then it is no longer in sync hence ISR will not show that.
 
+
+## Library
+**spring-kafka**
+
+### Some properties
+- bootstrap-server: the server where kafka will run, multiple brokers will be comma separated.
+- producer: how to serialise
+- consumer: how to deserilaise, group id. 
+- security protocol 
+- session timeout: when to stop if dont get response 
